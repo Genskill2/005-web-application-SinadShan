@@ -81,11 +81,12 @@ def edit(pid):
     elif request.method == "POST":
         description = request.form.get('description')
         sold = request.form.get("sold")
+        cursor.execute("update pet set description=? where id=?",[description,pid])
         if(sold):
             sold = datetime.date.today().strftime('%Y-%m-%d')
             cursor.execute("update pet set sold=? where id=?",[sold,pid])
-            conn.commit()  
-            conn.close()        
+        conn.commit()  
+        conn.close()        
         # TODO Handle sold
         return redirect(url_for("pets.pet_info", pid=pid), 302)
         
